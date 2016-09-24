@@ -1,0 +1,18 @@
+
+{
+  "total": 2,
+  "page": 1,
+  "perPage": 10,
+  "muppets": [
+    {
+      "id": 1,
+      "name": "Kermit",
+      "occupation": "being green"
+    },
+    {
+      "id": 2,
+      "name": "Gonzo",
+      "occupation": "plumber"
+    }
+  ]
+}

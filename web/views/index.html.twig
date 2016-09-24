@@ -1,0 +1,57 @@
+{% extends "base.html.twig" %}
+
+{% block header %}
+
+{% endblock %}
+
+{% block content %}
+
+<div id="ports-app">
+    <ul class=""></ul>
+    <table class="table table-striped ports-list">
+    	<thead>
+    		<tr>
+    			<th class="hidden-xs">Name</th>
+    			<th class="hidden-sm hidden-md hidden-lg">Pin</th>
+    			<th class="hidden-xs">Colour</th>
+    			<th></th>
+    		</tr>
+    	</thead>
+    	<tbody>
+    	</tbody>
+	  
+	</table>
+</div>
+
+{% endblock %}
+
+{% block javascripts %}
+
+	<script type="text/template" id="port-item-tmpl">
+		    <td class="hidden-xs"><input type="text" class="form-control" id="port-name-<%= id %>" value="<%= name %>"></td>
+		    <td class="hidden-sm hidden-md hidden-lg"><%= name %>: <%= occupation %></td>
+		    <td class="hidden-xs"><input type="text" class="form-control" id="port-job-<%= id %>" value="<%= occupation %>"></td>
+		    <input type="hidden" id="port-state-<%= id %>" value="<%= state %>">
+		    <td>
+			    <div class="btn-group" role="group" aria-label="...">
+				    <button class="hidden-xs btn btn-primary update" data-id="<%= id %>"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></button>
+				    <button class="btn <% if (state == 0) { %><% } else { %>btn-warning<% } %> toggle" href="/ports/<%= id %>"><span class="glyphicon <% if (state == 0) { %>glyphicon-star-empty<% } else { %>glyphicon-star<% } %>" aria-hidden="true"></span></button>
+				    <button class="hidden-xs btn btn-danger remove"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>
+			    </div>
+		    </td>
+	</script>
+	<script type="text/template" id="port-new-tmpl">
+		    <td class="hidden-xs"><input type="text" class="form-control" id="port-name" placeholder=""></td>
+		    <td class="hidden-xs"><input type="text" class="form-control" id="port-job" placeholder=""></td>
+		    <input type="text" class="form-control" id="port-state" placeholder="">
+		    <td class="hidden-xs">
+			    <div class="btn-group" role="group" aria-label="...">
+			    	<button class="btn btn-primary create"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
+			    </div>
+		    </td>
+	</script>
+	<script src="{{ app.request.basepath }}/js/gpio-app.js"></script>
+
+	<script type="text/javascript">
+	</script>
+{% endblock %}

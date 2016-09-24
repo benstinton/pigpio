@@ -1,0 +1,63 @@
+<?php 
+// app/app.php
+
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+
+require_once __DIR__.'/../vendor/autoload.php';
+
+$app = new Silex\Application();
+$app['debug'] = true;
+$app['autoloader']->registerNamespace('Alpha', __DIR__.'/../src');
+
+$app->register(new Silex\Provider\TwigServiceProvider(), array(
+    'twig.path' => __DIR__.'/../web/views',
+));
+
+// ... definitions
+
+$blogPosts = array(
+    1 => array(
+        'date'      => '2011-03-29',
+        'author'    => 'igorw',
+        'title'     => 'Using Silex',
+        'body'      => '...',
+    ),
+);
+
+$app->get('/blog', function () use ($blogPosts) {
+    $output = '';
+    foreach ($blogPosts as $key => $post) {
+        $output .= '<a href="blog/'.$key.'">'.$post['title'].'</a>';
+        $output .= '<br />';
+    }
+
+    return $output;
+});
+
+$app->get('/blog/{id}', function (Silex\Application $app, $id) use ($blogPosts) {
+    if (!isset($blogPosts[$id])) {
+        $app->abort(404, "Post $id does not exist.");
+    }
+
+    $post = $blogPosts[$id];
+
+    return  "<h1>{$post['title']}</h1>".
+            "<p>{$post['body']}</p>";
+});
+
+$app->post('/feedback', function (Request $request) {
+    $message = $request->get('message');
+    mail('feedback@yoursite.com', '[YourSite] Feedback', $message);
+
+    return new Response('Thank you for your feedback!', 201);
+});
+
+$app->get('/hello/{name}', function ($name) use ($app) {
+	return $app['twig']->render('hello.html.twig', array(
+		'name' => $name,
+	));
+});
+
+
+return $app;
