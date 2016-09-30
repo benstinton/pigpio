@@ -195,6 +195,13 @@ $app->delete('/ports/{id}', function (Silex\Application $app, $id) {
     return $app->json($model, 200);
 })->assert('id', '\d+');
 
+$app->get('/temp', function (Silex\Application $app) use ($settings, $data) {
 
+    $temp = $app['predis']->get('temp');
+    $test = $app['predis']->get('test');
+    $data = array("temp" => $temp, "test" => $test);
+
+    return $app->json($data, 200);
+});
 
 return $app;
