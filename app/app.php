@@ -198,8 +198,8 @@ $app->delete('/ports/{id}', function (Silex\Application $app, $id) {
 $app->get('/temp', function (Silex\Application $app) use ($settings, $data) {
 
     $temp = $app['predis']->get('temp');
-    $test = $app['predis']->get('test');
-    $data = array("temp" => $temp, "test" => $test);
+
+    $data = array("temp" => $temp);
 
     return $app->json($data, 200);
 });
